@@ -1,8 +1,9 @@
 {
   "type": "minecraft:crafting_shapeless",
+  "category": "misc",
   "ingredients": [
-    { "item": "magicherb:magic_herb" },
-    { "item": "minecraft:paper" }
+    "magicherb:magic_herb",
+    "minecraft:paper"
   ],
   "result": { "id": "magicherb:joint", "count": 2 }
 }
