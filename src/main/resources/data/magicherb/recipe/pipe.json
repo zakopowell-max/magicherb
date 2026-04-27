@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " S",
+    "WS",
+    "W "
+  ],
+  "key": {
+    "S": { "item": "minecraft:stone" },
+    "W": { "item": "minecraft:oak_log" }
+  },
+  "result": { "id": "magicherb:pipe", "count": 1 }
+}

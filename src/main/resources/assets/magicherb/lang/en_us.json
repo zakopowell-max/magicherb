@@ -1,0 +1,12 @@
+{
+  "item.magicherb.magic_herb":  "Magic Herb",
+  "item.magicherb.dried_herb":  "Dried Herb",
+  "item.magicherb.herb_seeds":  "Herb Seeds",
+  "item.magicherb.pipe":        "Wizard's Pipe",
+  "item.magicherb.joint":       "Herbal Blend",
+
+  "block.magicherb.wild_herb_plant": "Wild Herb",
+  "block.magicherb.herb_crop":       "Herb Crop",
+
+  "effect.magicherb.blazed": "Blazed"
+}

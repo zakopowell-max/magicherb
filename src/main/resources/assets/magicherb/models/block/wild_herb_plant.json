@@ -1,0 +1,4 @@
+{
+  "parent": "minecraft:block/cross",
+  "textures": { "cross": "magicherb:block/wild_herb_plant" }
+}

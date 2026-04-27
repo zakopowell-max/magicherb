@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "id": "magicherb",
+  "version": "${version}",
+  "name": "Magic Herb",
+  "description": "Cultivate wild herb and share a smoke with your friends.",
+  "authors": ["zako"],
+  "license": "MIT",
+  "environment": "*",
+  "entrypoints": {
+    "main":   ["net.magicherb.MagicHerbMod"],
+    "client": ["net.magicherb.MagicHerbModClient"]
+  },
+  "mixins": [],
+  "depends": {
+    "fabricloader": ">=0.15.0",
+    "minecraft":    "~26.1",
+    "java":         ">=21",
+    "fabric-api":   "*"
+  }
+}

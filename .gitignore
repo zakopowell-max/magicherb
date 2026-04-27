@@ -1,0 +1,32 @@
+# Gradle
+.gradle/
+build/
+
+# IntelliJ
+.idea/
+*.iml
+out/
+
+# Eclipse
+.classpath
+.project
+.settings/
+
+# VS Code
+.vscode/
+
+# macOS
+.DS_Store
+
+# Loom-extracted MC files dumped in project root
+/assets/
+/data/
+/com/
+/net/
+/META-INF/
+/run/
+/version.json
+/flightrecorder-config.jfc
+
+# Generated previews (large, not source)
+texture_previews/
