@@ -12,7 +12,6 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -53,7 +52,7 @@ public class JointItem extends Item {
         level.playSound(null, player.blockPosition(),
             SoundEvents.FIRE_EXTINGUISH, SoundSource.PLAYERS, 0.3f, 1.6f);
 
-        stack.hurtAndBreak(1, player, EquipmentSlot.MAINHAND);
+        stack.shrink(1);
 
         ModAdvancements.grant(player, "first_smoke");
         if (!nearby.isEmpty()) ModAdvancements.grant(player, "sharing_is_caring");
