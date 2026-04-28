@@ -15,10 +15,11 @@ public class ModConfig {
     public int    pipe_use_ticks                 = 40;
     public int    joint_use_ticks                = 32;
     public int    effect_base_duration           = 600;
+    public int    joint_effect_base_duration     = 200;
     public double dried_herb_duration_multiplier = 2.0;
     public double pipe_aoe_range                 = 5.0;
     public double joint_aoe_range                = 4.0;
-    public double bad_trip_chance                = 0.10;
+    public double bad_trip_chance                = 0.03;
     public int    herb_spawn_rarity              = 8;
     public int    herb_spawn_rarity_lush         = 3;
     public float  hunger_exhaustion              = 3.0f;
