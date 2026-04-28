@@ -8,5 +8,20 @@
   "block.magicherb.wild_herb_plant": "Wild Herb",
   "block.magicherb.herb_crop":       "Herb Crop",
 
-  "effect.magicherb.blazed": "Blazed"
+  "effect.magicherb.blazed": "Blazed",
+
+  "advancement.magicherb.root.title":              "Magic Herb",
+  "advancement.magicherb.root.desc":               "Found some wild herb growing in the world",
+
+  "advancement.magicherb.first_smoke.title":       "First Hit",
+  "advancement.magicherb.first_smoke.desc":        "Smoke some magic herb for the first time",
+
+  "advancement.magicherb.sharing_is_caring.title": "Sharing is Caring",
+  "advancement.magicherb.sharing_is_caring.desc":  "Pass the good vibes to a nearby friend",
+
+  "advancement.magicherb.green_thumb.title":       "Green Thumb",
+  "advancement.magicherb.green_thumb.desc":        "Harvest a fully grown herb crop",
+
+  "advancement.magicherb.bad_trip.title":          "Bad Trip",
+  "advancement.magicherb.bad_trip.desc":           "Sometimes the herb has other plans..."
 }

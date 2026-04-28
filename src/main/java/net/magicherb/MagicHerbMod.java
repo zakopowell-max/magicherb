@@ -6,6 +6,7 @@ import net.magicherb.effect.ModEffects;
 import net.magicherb.item.ModItems;
 import net.magicherb.network.ModPackets;
 import net.magicherb.world.ModWorldGen;
+import net.magicherb.ModConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,6 +16,7 @@ public class MagicHerbMod implements ModInitializer {
 
     @Override
     public void onInitialize() {
+        ModConfig.load();
         ModEffects.register();
         ModBlocks.register();
         ModItems.register();

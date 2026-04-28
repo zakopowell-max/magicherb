@@ -1,5 +1,7 @@
 package net.magicherb.item;
 
+import net.magicherb.ModAdvancements;
+import net.magicherb.ModConfig;
 import net.magicherb.effect.ModEffects;
 import net.magicherb.network.ModPackets;
 import net.minecraft.server.level.ServerLevel;
@@ -17,10 +19,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemUseAnimation;
 import net.minecraft.world.level.Level;
 
-public class JointItem extends Item {
+import java.util.List;
 
-    private static final int USE_TICKS = 32;
-    private static final double AOE_RANGE = 4.0;
+public class JointItem extends Item {
 
     public JointItem(Properties settings) {
         super(settings);
@@ -34,34 +35,51 @@ public class JointItem extends Item {
 
     @Override
     public ItemStack finishUsingItem(ItemStack stack, Level level, LivingEntity user) {
-        if (level instanceof ServerLevel serverLevel && user instanceof ServerPlayer player) {
-            applyEffects(player, 1.0f);
+        if (!(level instanceof ServerLevel serverLevel) || !(user instanceof ServerPlayer player)) return stack;
 
-            serverLevel.getEntitiesOfClass(
-                ServerPlayer.class,
-                player.getBoundingBox().inflate(AOE_RANGE),
-                p -> p != player && !p.isSpectator()
-            ).forEach(nearby -> applyEffects(nearby, 0.5f));
+        boolean badTrip = Math.random() < ModConfig.INSTANCE.bad_trip_chance;
 
-            ModPackets.sendSmoke(player, player.position());
-            level.playSound(null, player.blockPosition(),
-                SoundEvents.FIRE_EXTINGUISH, SoundSource.PLAYERS, 0.3f, 1.6f);
+        applyEffects(player, 1.0f, badTrip);
 
-            stack.shrink(1);
-        }
+        List<ServerPlayer> nearby = serverLevel.getEntitiesOfClass(
+            ServerPlayer.class,
+            player.getBoundingBox().inflate(ModConfig.INSTANCE.joint_aoe_range),
+            p -> p != player && !p.isSpectator()
+        );
+        nearby.forEach(p -> applyEffects(p, 0.5f, false));
+
+        ModPackets.sendSmoke(player, player.position());
+        level.playSound(null, player.blockPosition(),
+            SoundEvents.FIRE_EXTINGUISH, SoundSource.PLAYERS, 0.3f, 1.6f);
+
+        stack.shrink(1);
+
+        ModAdvancements.grant(player, "first_smoke");
+        if (!nearby.isEmpty()) ModAdvancements.grant(player, "sharing_is_caring");
+        if (badTrip)           ModAdvancements.grant(player, "bad_trip");
+
         return stack;
     }
 
-    private void applyEffects(ServerPlayer player, float potency) {
-        int dur = Math.round(600 * potency);
-        player.addEffect(new MobEffectInstance(ModEffects.BLAZED,   Math.round(900 * potency), 0, false, true));
-        player.addEffect(new MobEffectInstance(MobEffects.SLOWNESS,     dur,     0, false, false));
-        player.addEffect(new MobEffectInstance(MobEffects.REGENERATION, dur / 2, 0, false, false));
+    private void applyEffects(ServerPlayer player, float potency, boolean badTrip) {
+        ModConfig cfg = ModConfig.INSTANCE;
+        int base = cfg.effect_base_duration;
+        int dur  = Math.round(base * potency);
+
+        if (badTrip) {
+            player.addEffect(new MobEffectInstance(MobEffects.NAUSEA, Math.round(300 * potency), 0, false, true));
+            player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS,  Math.round(200 * potency), 0, false, true));
+        } else {
+            player.addEffect(new MobEffectInstance(ModEffects.BLAZED,       Math.round(base * 1.5f * potency), 0, false, true));
+            player.addEffect(new MobEffectInstance(MobEffects.SLOWNESS,     dur,     0, false, false));
+            player.addEffect(new MobEffectInstance(MobEffects.REGENERATION, dur / 2, 0, false, false));
+        }
+        player.getFoodData().addExhaustion(cfg.hunger_exhaustion * potency);
     }
 
     @Override
     public int getUseDuration(ItemStack stack, LivingEntity user) {
-        return USE_TICKS;
+        return ModConfig.INSTANCE.joint_use_ticks;
     }
 
     @Override

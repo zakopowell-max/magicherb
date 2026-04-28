@@ -1,5 +1,7 @@
 package net.magicherb.item;
 
+import net.magicherb.ModAdvancements;
+import net.magicherb.ModConfig;
 import net.magicherb.effect.ModEffects;
 import net.magicherb.network.ModPackets;
 import net.minecraft.server.level.ServerLevel;
@@ -18,10 +20,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemUseAnimation;
 import net.minecraft.world.level.Level;
 
-public class PipeItem extends Item {
+import java.util.List;
 
-    private static final int USE_TICKS = 40;
-    private static final double AOE_RANGE = 5.0;
+public class PipeItem extends Item {
 
     public PipeItem(Properties settings) {
         super(settings);
@@ -29,8 +30,7 @@ public class PipeItem extends Item {
 
     @Override
     public InteractionResult use(Level level, Player player, InteractionHand hand) {
-        ItemStack offhand = player.getOffhandItem();
-        if (isHerb(offhand)) {
+        if (isHerb(player.getOffhandItem())) {
             player.startUsingItem(hand);
             return InteractionResult.CONSUME;
         }
@@ -44,16 +44,18 @@ public class PipeItem extends Item {
         ItemStack offhand = player.getOffhandItem();
         if (!isHerb(offhand)) return stack;
 
-        boolean dried = offhand.is(ModItems.DRIED_HERB);
+        boolean dried    = offhand.is(ModItems.DRIED_HERB);
+        boolean badTrip  = Math.random() < ModConfig.INSTANCE.bad_trip_chance;
         offhand.shrink(1);
 
-        applyEffects(player, dried, 1.0f);
+        applyEffects(player, dried, 1.0f, badTrip);
 
-        serverLevel.getEntitiesOfClass(
+        List<ServerPlayer> nearby = serverLevel.getEntitiesOfClass(
             ServerPlayer.class,
-            player.getBoundingBox().inflate(AOE_RANGE),
+            player.getBoundingBox().inflate(ModConfig.INSTANCE.pipe_aoe_range),
             p -> p != player && !p.isSpectator()
-        ).forEach(nearby -> applyEffects(nearby, dried, 0.5f));
+        );
+        nearby.forEach(p -> applyEffects(p, dried, 0.5f, false));
 
         stack.hurtAndBreak(1, player, EquipmentSlot.MAINHAND);
 
@@ -61,15 +63,27 @@ public class PipeItem extends Item {
         level.playSound(null, player.blockPosition(),
             SoundEvents.FIRE_EXTINGUISH, SoundSource.PLAYERS, 0.3f, 1.5f);
 
+        ModAdvancements.grant(player, "first_smoke");
+        if (!nearby.isEmpty()) ModAdvancements.grant(player, "sharing_is_caring");
+        if (badTrip)           ModAdvancements.grant(player, "bad_trip");
+
         return stack;
     }
 
-    private void applyEffects(ServerPlayer player, boolean dried, float potency) {
-        int base = dried ? 1200 : 600;
-        int dur = Math.round(base * potency);
-        player.addEffect(new MobEffectInstance(ModEffects.BLAZED, Math.round(base * 1.5f * potency), 0, false, true));
-        player.addEffect(new MobEffectInstance(MobEffects.SLOWNESS,     dur,     0, false, false));
-        player.addEffect(new MobEffectInstance(MobEffects.REGENERATION, dur / 2, 0, false, false));
+    private void applyEffects(ServerPlayer player, boolean dried, float potency, boolean badTrip) {
+        ModConfig cfg = ModConfig.INSTANCE;
+        int base = (int)(cfg.effect_base_duration * (dried ? cfg.dried_herb_duration_multiplier : 1.0));
+        int dur  = Math.round(base * potency);
+
+        if (badTrip) {
+            player.addEffect(new MobEffectInstance(MobEffects.NAUSEA, Math.round(300 * potency), 0, false, true));
+            player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS,  Math.round(200 * potency), 0, false, true));
+        } else {
+            player.addEffect(new MobEffectInstance(ModEffects.BLAZED,           Math.round(base * 1.5f * potency), 0, false, true));
+            player.addEffect(new MobEffectInstance(MobEffects.SLOWNESS,         dur,     0, false, false));
+            player.addEffect(new MobEffectInstance(MobEffects.REGENERATION,     dur / 2, 0, false, false));
+        }
+        player.getFoodData().addExhaustion(cfg.hunger_exhaustion * potency);
     }
 
     private boolean isHerb(ItemStack stack) {
@@ -78,7 +92,7 @@ public class PipeItem extends Item {
 
     @Override
     public int getUseDuration(ItemStack stack, LivingEntity user) {
-        return USE_TICKS;
+        return ModConfig.INSTANCE.pipe_use_ticks;
     }
 
     @Override

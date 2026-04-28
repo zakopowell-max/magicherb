@@ -1,0 +1,15 @@
+{
+  "display": {
+    "icon": { "id": "magicherb:herb_seeds" },
+    "title": { "translate": "advancement.magicherb.green_thumb.title" },
+    "description": { "translate": "advancement.magicherb.green_thumb.desc" },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "parent": "magicherb:root",
+  "criteria": {
+    "magicherb": { "trigger": "minecraft:impossible" }
+  }
+}

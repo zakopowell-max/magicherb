@@ -1,0 +1,15 @@
+{
+  "display": {
+    "icon": { "id": "minecraft:fermented_spider_eye" },
+    "title": { "translate": "advancement.magicherb.bad_trip.title" },
+    "description": { "translate": "advancement.magicherb.bad_trip.desc" },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": true
+  },
+  "parent": "magicherb:first_smoke",
+  "criteria": {
+    "magicherb": { "trigger": "minecraft:impossible" }
+  }
+}

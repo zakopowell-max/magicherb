@@ -1,0 +1,15 @@
+{
+  "display": {
+    "icon": { "id": "magicherb:joint" },
+    "title": { "translate": "advancement.magicherb.sharing_is_caring.title" },
+    "description": { "translate": "advancement.magicherb.sharing_is_caring.desc" },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "parent": "magicherb:first_smoke",
+  "criteria": {
+    "magicherb": { "trigger": "minecraft:impossible" }
+  }
+}
