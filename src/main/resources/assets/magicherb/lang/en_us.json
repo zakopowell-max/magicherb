@@ -4,11 +4,12 @@
   "item.magicherb.herb_seeds":  "Herb Seeds",
   "item.magicherb.pipe":        "Wizard's Pipe",
   "item.magicherb.joint":       "Herbal Blend",
+  "item.magicherb.stash":       "Herb Sack",
 
   "block.magicherb.wild_herb_plant": "Wild Herb",
   "block.magicherb.herb_crop":       "Herb Crop",
-  "block.magicherb.stash":           "Herb Stash",
-  "container.magicherb.stash":       "Herb Stash",
+
+  "container.magicherb.stash":       "Herb Sack",
 
   "effect.magicherb.blazed": "Blazed",
 

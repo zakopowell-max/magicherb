@@ -4,15 +4,29 @@ import net.fabricmc.fabric.api.creativetab.v1.CreativeModeTabEvents;
 import net.magicherb.MagicHerbMod;
 import net.magicherb.block.ModBlocks;
 import net.minecraft.core.Registry;
+import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+
+import java.util.List;
 
 public class ModItems {
+
+    public static final DataComponentType<List<ItemStack>> SACK_CONTENTS = Registry.register(
+        BuiltInRegistries.DATA_COMPONENT_TYPE,
+        Identifier.fromNamespaceAndPath(MagicHerbMod.MOD_ID, "sack_contents"),
+        DataComponentType.<List<ItemStack>>builder()
+            .persistent(ItemStack.OPTIONAL_CODEC.listOf())
+            .networkSynchronized(ItemStack.OPTIONAL_STREAM_CODEC.apply(ByteBufCodecs.list(9)))
+            .build()
+    );
 
     public static final Item MAGIC_HERB = register("magic_herb",
         new Item(props("magic_herb").stacksTo(64)));
@@ -30,7 +44,7 @@ public class ModItems {
         new JointItem(props("joint").stacksTo(1).durability(10)));
 
     public static final Item STASH = register("stash",
-        new BlockItem(ModBlocks.STASH, props("stash")));
+        new SackItem(props("stash").stacksTo(1)));
 
     private static Item.Properties props(String name) {
         return new Item.Properties().setId(

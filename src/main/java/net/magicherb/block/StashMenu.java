@@ -1,7 +1,6 @@
 package net.magicherb.block;
 
 import net.magicherb.item.ModItems;
-import net.minecraft.core.BlockPos;
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
@@ -14,12 +13,6 @@ public class StashMenu extends AbstractContainerMenu {
 
     private final Container container;
 
-    // Client-side: called by ExtendedMenuType factory with block pos
-    public StashMenu(int syncId, Inventory playerInv, BlockPos pos) {
-        this(syncId, playerInv, new SimpleContainer(9));
-    }
-
-    // Server-side: called by StashBlockEntity.createMenu
     public StashMenu(int syncId, Inventory playerInv, Container container) {
         super(ModMenus.STASH, syncId);
         this.container = container;

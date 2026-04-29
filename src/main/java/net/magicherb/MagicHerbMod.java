@@ -1,7 +1,6 @@
 package net.magicherb;
 
 import net.fabricmc.api.ModInitializer;
-import net.magicherb.block.ModBlockEntities;
 import net.magicherb.block.ModBlocks;
 import net.magicherb.block.ModMenus;
 import net.magicherb.effect.ModEffects;
@@ -21,7 +20,6 @@ public class MagicHerbMod implements ModInitializer {
         ModConfig.load();
         ModEffects.register();
         ModBlocks.register();
-        ModBlockEntities.register();
         ModMenus.register();
         ModItems.register();
         ModPackets.registerServer();

@@ -2,12 +2,13 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "pattern": [
-    "LLL",
+    "LSL",
     "L L",
-    "LLL"
+    "LSL"
   ],
   "key": {
-    "L": "minecraft:oak_log"
+    "L": "minecraft:leather",
+    "S": "minecraft:string"
   },
   "result": { "id": "magicherb:stash", "count": 1 }
 }

@@ -32,14 +32,6 @@ public class ModBlocks {
         )
     );
 
-    public static final Block STASH = register("stash",
-        new StashBlock(BlockBehaviour.Properties.of()
-            .setId(key("stash"))
-            .strength(2.5f)
-            .sound(SoundType.WOOD)
-        )
-    );
-
     private static ResourceKey<Block> key(String name) {
         return ResourceKey.create(Registries.BLOCK,
             Identifier.fromNamespaceAndPath(MagicHerbMod.MOD_ID, name));
