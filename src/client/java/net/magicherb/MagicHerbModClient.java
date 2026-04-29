@@ -2,7 +2,10 @@ package net.magicherb;
 
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.magicherb.block.ModMenus;
+import net.magicherb.client.StashScreen;
 import net.magicherb.network.ModPackets;
+import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.particles.ParticleTypes;
 import java.util.concurrent.ThreadLocalRandom;
@@ -11,6 +14,8 @@ public class MagicHerbModClient implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
+        MenuScreens.register(ModMenus.STASH, StashScreen::new);
+
         ClientPlayNetworking.registerGlobalReceiver(ModPackets.SmokePayload.ID, (payload, context) ->
             context.client().execute(() -> {
                 ClientLevel level = context.client().level;

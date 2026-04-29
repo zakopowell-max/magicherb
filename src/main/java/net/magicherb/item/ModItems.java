@@ -27,7 +27,10 @@ public class ModItems {
         new PipeItem(props("pipe").stacksTo(1).durability(64)));
 
     public static final Item JOINT = register("joint",
-        new JointItem(props("joint").stacksTo(16)));
+        new JointItem(props("joint").stacksTo(1).durability(10)));
+
+    public static final Item STASH = register("stash",
+        new BlockItem(ModBlocks.STASH, props("stash")));
 
     private static Item.Properties props(String name) {
         return new Item.Properties().setId(
@@ -54,6 +57,7 @@ public class ModItems {
         CreativeModeTabEvents.modifyOutputEvent(tools).register(output -> {
             output.prepend(PIPE);
             output.prepend(JOINT);
+            output.prepend(STASH);
         });
     }
 }
